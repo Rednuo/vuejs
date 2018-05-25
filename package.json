@@ -1,0 +1,23 @@
+{
+  "name": "vuejs",
+  "version": "1.0.0",
+  "description": "vue",
+  "main": "arr.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rednuo/vuejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.5.16"
+  },
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^4.1.1"
+  }
+}

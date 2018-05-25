@@ -23,3 +23,5 @@ lastIndexof concat slice
 
 ##forEach:没有返回值  filter map:映射  some every  reduce (ES6:find includes)
 
+npm install vue axios bootstrap
+
