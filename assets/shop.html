@@ -31,9 +31,12 @@
                 </tr>
                 <tr v-for="(product,index) in products">
                     <td><input type="checkbox" v-model="product.isSelected">{{product.isSelected}}</td>
-                    <td>{{product.productName}}</td>
+                    <td>
+                        <img :src="product.productCover" :title="product.productName">{{product.productName}}</td>
                     <td>{{product.productPrice}}</td>
-                    <td>{{product.productCount}}</td>
+                    <td>
+                        <input type="number" v-model.number="product.productCount">
+                        {{product.productCount}}</td>
                     <td>{{product.productPrice*product.productCount}}</td>
                     <td>
                         <button class="btn btn-danger" @click="remove(index)">删除</button>
