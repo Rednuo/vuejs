@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件</title>
+    <style>
+        [v-cloak]{display: none}
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <input type="text" v-model="val" @keyup.enter="add">
+    <ul>
+        <li v-for="(a,index) in arr">
+            {{a}}
+            <button @click="remove(index)">删除</button>
+        </li>
+    </ul>
+    <!--v-on: === @-->
+    <!--如果不传递参数，不用写括号 会自动传入事件源，如果写括号，需要手动传入$event属性-->
+    <div @click="fn($event,1)">点击</div>
+
+    <!--只有一个复选框，会把值转成boolean类型-->
+    <input type="checkbox" v-model="a">{{a}} <br>
+    <!--多个复选框，要增加value属性并且数据类型为数组-->
+    <input type="checkbox" v-model="b" value="哈哈">哈哈
+    <input type="checkbox" v-model="b" value="呵呵">呵呵
+    <input type="checkbox" v-model="b" value="嘻嘻">嘻嘻
+    {{b}}
+    <br>
+    <select v-model="c">
+        <option value="" disabled>请选择</option>
+        <option value="1">哈哈</option>
+        <option value="2">呵呵</option>
+        <option value="3">嘻嘻</option>
+    </select>
+    <!--value属性不写，默认取的是option中的值，请选择一项需加disabled-->
+    {{c}}
+    <br>
+    <select v-model="d" multiple>
+        <option value="" disabled>请选择</option>
+        <option value="1">哈哈</option>
+        <option value="2">呵呵</option>
+        <option value="3">嘻嘻</option>
+    </select>
+    <!--select为多选框，则数据类型要是数组类型-->
+    {{d}}
+    <br>
+    <input type="radio" v-model="gender" value="男">男
+    <input type="radio" v-model="gender" value="女">女
+    -------- {{gender}}
+</div>
+
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm=new Vue({//根实例
+        el:'#app',
+        data:{//都是数据
+            gender:'男',
+            a:'123',
+            b:[],
+            c:'',
+            d:[],
+            arr:[],
+            val:''
+        },
+        methods:{//methods和data中的数据会全部放到vm上，而且名字不能冲突，冲突会报错
+            //methods中的this指向的都是实例
+            fn(event,a){alert(this.a)},
+            add(e){
+//                if(e.keyCode===13){
+                this.arr.unshift(this.val);
+                this.val='';
+//                }
+            },
+            remove(i){
+                this.arr=this.arr.filter( (item,index)=>index!==i)
+            }
+        }
+    })
+</script>
+</body>
+</html>
