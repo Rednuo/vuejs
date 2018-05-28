@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--bootstrap 栅格化布局 默认12列-->
+    <!--常见的样式  基本样式 +  增强样式-->
+    <!--default灰色  success绿色  danger红色  warning黄色  info浅蓝色  primary蓝色-->
+    <!--vue 的UI框架 iview,mintui-->
+    <div class="container" v-cloak>
+        <!--每一行拥有12列-->
+        <div class="row">
+            <table class="table table-hover table-bordered">
+                <caption class="h2 text-warning text-center">购物车</caption>
+                <tr>
+                    <th>全选 <input type="checkbox" @click="selectAll()"></th>
+                    <td>商品</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>小计</td>
+                    <td>操作</td>
+                </tr>
+                <tr v-for="(product,index) in products">
+                    <td><input type="checkbox" v-model="product.isSelected">{{product.isSelected}}</td>
+                    <td>{{product.productName}}</td>
+                    <td>{{product.productPrice}}</td>
+                    <td>{{product.productCount}}</td>
+                    <td>{{product.productPrice*product.productCount}}</td>
+                    <td>
+                        <button class="btn btn-danger" @click="remove(index)">删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<!--基于promise-->
+<script src="../node_modules/axios/dist/axios.js"></script>
+<script>
+    let vm=new Vue({
+        el:'#app',
+        //专门用来发送ajax的方法
+        created(){//数据被初始化后会调用,this指向vm实例，钩子函数
+            this.getData();
+//            this.remove();
+        },
+        methods:{
+            getData(){//初始化方法
+                axios.get("./data/shop.json")
+                    .then(res=>{//成功
+                        this.products=res.data;
+                    },err=>{//失败
+                        console.log(err)
+                    });
+            },
+            remove(i){
+                this.products=this.products.filter( (product,index)=>index!==i)
+            },
+            selectAll(){
+                for(let a=0;a<this.products.length;a++){
+                    this.products[a].isSelected=true;
+                }
+            }
+        },
+        data:{
+            products:[]
+        }
+    })
+</script>
+</body>
+</html>

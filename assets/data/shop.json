@@ -1,0 +1,26 @@
+[
+  {
+    "isSelected": true,
+    "productCover": "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=485941090,2113204929&fm=58",
+    "productName": "输入法",
+    "productInfo": "颜色：算法的车车",
+    "productPrice": "57",
+    "productCount": 4
+  },
+  {
+    "isSelected": false,
+    "productCover": "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=485941090,2113204929&fm=58",
+    "productName": "阿德福",
+    "productInfo": "颜色：算法的车车",
+    "productPrice": "4",
+    "productCount": 7
+  },
+  {
+    "isSelected": true,
+    "productCover": "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=485941090,2113204929&fm=58",
+    "productName": "翻译",
+    "productInfo": "颜色：算法的车车",
+    "productPrice": "356",
+    "productCount": 3
+  }
+]
