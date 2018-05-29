@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改</title>
+</head>
+<body>
+<div id="app">
+    <div @click="parent">父元素
+        <div @click="child">child
+            <div @click.stop="grandson">孙子</div>
+        </div>
+    </div>
+    <div @click.capture="parent">父元素
+        <div @click="child">child
+            <div @click="grandson">孙子</div>
+        </div>
+    </div>
+    {{'hello' | my}}
+</div>
+<div id="app1">{{'hello' | my}}</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    //全局过滤器   要放在页面顶部
+    Vue.filter('my',(data)=>{
+        return 'zh'+data
+    });
+    new Vue({
+        el:'#app',
+        methods:{
+            parent(){
+                alert('parent')
+            },
+            child(){
+                alert('child')
+            },
+            grandson(e){
+//                e.cancelBubble=true;
+//                e.stopPropagation();
+                alert('grandson')
+            }
+        }
+    });
+    new Vue({
+        el:'#app1'
+    })
+</script>
+</body>
+</html>

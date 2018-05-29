@@ -45,3 +45,50 @@ lastIndexof concat slice
 ```
 npm install vue axios bootstrap
 ```
+
+## v-model
+- checkbox,select多选是数组，提供一个value属性
+- radio  checkbox分组靠的是v-model
+- checked selected不存在
+
+## 修饰符
+- .lazy  .number
+- 按键修饰符 .enter  .ctrl .keyCode
+- 事件
+
+    - @事件.stop
+    ```
+        stopPropagation (阻止冒泡，阻止事件传播) ,
+        cancelBubble=true;
+    ```
+    -@事件.capture(捕获)
+    ```
+    xxx.addEventListener('click',fn)
+    ```
+    -@事件.prevent（阻止默认行为）
+    ```
+    preventDefault,returnValue=false
+    ```
+    - @事件.once(绑定移除，只执行一次)
+    ```
+    on('click') off('click')
+    ```
+    -@事件.self
+    ```
+    e.srcElement && e.target 判断事件源绑定事件
+    ```
+- jquery once
+- e.srcElement && e.target 判断事件源绑定事件
+
+## filters实例上可以用
+```
+{{'123' | my(1,2,3)}}
+filters:{
+    my(data,param1,param2,param3...){}
+}
+```
+
+## computed 计算‘属性’，不是方法，不支持异步
+- 方法不会有缓存，computed会根据依赖（归vue管理的数据，可以响应式变化的）的属性进行缓存
+- 两部分组成有get 和set (不能只写set)，一般情况下，通过js赋值影响其他人或者表单元素设置值的时候会调用set方法
+

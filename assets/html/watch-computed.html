@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="a">{{msg}}
+    <input type="text" v-model="val">{{fullName}}
+</div>
+
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm=new Vue({
+        el:'#app',
+        computed:{//不能异步
+            fullName(){
+                return this.firstName+this.val+this.lastName;
+            }
+        },
+        watch:{//只有值变化的时候才会触发 支持异步,其它情况更适合使用computed
+            a(newVal,oldVal){//watch的属性名要和观察的人的名字一致
+                setTimeout(()=>{
+                    if(newVal.length<3){
+                        return this.msg='太少'
+                    }
+                    if(newVal.length>6){
+                        return this.msg='太多'
+                    }
+                    this.msg=''
+                },2000)
+            }
+        },
+        data:{
+            firstName:'jnhh',
+            lastName:'de',
+            val:'',
+            a:'',
+            msg:''
+        }
+    });
+</script>
+</body>
+</html>
