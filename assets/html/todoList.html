@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todoList</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .del{text-decoration: line-through;color:#ccc !important;}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <div class="navbar-hearder">
+                    <a href="#" class="navbar-brand">TodoList</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-danger">亲，您还有{{count}}事要完成</h3>
+                            <input type="text" class="form-control" v-model="title" @keyup.enter="add">
+                        </div>
+                        <div class="card-footer">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#/all" :class="{active:hash=='all'}">全部任务</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#/finish" :class="{active:hash=='finish'}">已完成</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#/unfinish" :class="{active:hash=='unfinish'}">未完成</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(todo,index) in fliterTodos" @dblclick="remember(todo)">
+                                    <div class=" float-left" :class="{del:todo.isSelected}"  v-show="cur!=todo">
+                                        <input type="checkbox" v-model="todo.isSelected">{{todo.title}}
+                                    </div>
+                                    <input type="text" v-model="todo.title" v-show="cur==todo" @keyup.enter="cancel" @blur="cancel" v-focus="cur==todo">
+                                    <button class="float-right btn btn-danger btn-sm" @click="remove(todo)">&bigotimes;</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+    <script src="../../node_modules/axios/dist/axios.js"></script>
+    <script>
+        let vm=new Vue({
+            el:'#app',
+            directives:{
+                focus(el,bindings){
+                    //当cur==todo时，让内部的输入框获取焦点
+                    if(bindings.value){
+                        el.focus()
+                    }
+                }
+            },
+            computed:{
+                count(){//get方法需要return
+                    return this.todos.filter(item=>!item.isSelected).length
+                },
+                fliterTodos(){
+                    if(this.hash==='all'){
+                        return this.todos
+                    }
+                    if(this.hash==='finish'){
+                        return this.todos.filter(item=>item.isSelected)
+                    }
+                    if(this.hash==='unfinish'){
+                        return this.todos.filter(item=>!item.isSelected)
+                    }
+                    return this.todos;
+                }
+            },
+            data:{
+                title:'',
+                cur:'',
+                hash:'',
+                todos:[
+                    {isSelected:false,title:'睡觉'},
+                    {isSelected:false,title:'吃饭'},
+                    {isSelected:false,title:'打豆豆'}
+                ]
+            },
+            //ajax获取  初始化数据
+            created(){
+                //本地有就用本地的，没有就用默认的
+                this.todos=JSON.parse(localStorage.getItem('data')) || this.todos;
+
+                //监控hash值变化，如果页面已经有hash了，重新刷新页面也要获取hash值
+                this.hash=window.location.hash.slice(2) || 'all';
+                window.addEventListener('hashchange',()=>{
+                    this.hash=window.location.hash.slice(2)
+                },false)
+            },
+            watch:{
+                //watch默认只监控一层的数据变化，浅度监控
+//                todos(){alert()},
+                //深度监控
+                todos:{
+                  handler(){//默认写成函数
+                      localStorage.setItem('data',JSON.stringify(this.todos));//默认存字符串
+                  },deep:true
+                }
+            },
+            methods:{
+                add(){//keydown/keyup差一个单词
+                    this.todos.push({
+                        isSelected:false,
+                        title:this.title
+                    });
+                    this.title=''
+                },
+                remove(todo){
+//                    this.todos=this.todos.filter( (item,index)=>index!==i)
+                    this.todos=this.todos.filter( item=>item!==todo)
+                },
+                cancel(){
+                    this.cur=''
+                },
+                remember(todo){
+                    this.cur=todo;
+                }
+            }
+        })
+        //1、将数据循环到页面上
+        //2、敲回车时添加数据，加入isSelected
+        //3、删除功能
+        //4、计算下当前没有被选中的个数
+    </script>
+</body>
+</html>

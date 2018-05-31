@@ -92,3 +92,18 @@ filters:{
 - 方法不会有缓存，computed会根据依赖（归vue管理的数据，可以响应式变化的）的属性进行缓存
 - 两部分组成有get 和set (不能只写set)，一般情况下，通过js赋值影响其他人或者表单元素设置值的时候会调用set方法
 
+## v-if 操作dom，可以与v-else-if,v-else连写
+## v-show 操作样式
+
+## v-bind简写：
+
+- 动态绑定‘属性’
+```
+  <img :src="src" :width="w"/>
+```
+
+## 实现单页开发的方式
+- 通过hash记录跳转的路径（可以产生历史管理）
+- 浏览器自带的历史管理的方法 history  (history.pushState())，可能会导致404错误
+
+> 开发时使用hash的方式  上线的话使用history的方式

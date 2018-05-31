@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>动画</title>
     <link rel="stylesheet" href="../../node_modules/animate.css/animate.css">
+    <style>
+        .x{background-color: violet}
+        .y{font-size: 30px}
+        .z{color: burlywood}
+    </style>
 </head>
 <body>
     <div id="app">
@@ -11,7 +16,9 @@
         <!--如果频繁的切换dom使用v-show，当数据一开始就确定下来，使用v-if更好-->
         <!--如果if不通过，内部指令不会再执行-->
         <!--只有dom从显示到隐藏或反过来，才能使用vue动画-->
+        <p>************vue动画********************</p>
         <button @click="flag=!flag">切换</button>
+        <br>
         <!--vue自定义标签  组件-->
         <transition enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
             <div v-show="flag">哈哈哈</div>
@@ -24,10 +31,40 @@
             <div v-for="(a,index) in newArr" :key="Math.random()">{{a}}</div>
         </transition-group>
 
+        <br>
+        <p>**************v-if/v-show********************</p>
+        <!--template标签是vue提供的没有任何实际意义，用来包裹元素的，v-show不支持template,只有v-if使用-->
+        <template v-if="true">
+            <div>呵呵呵</div>
+            <div>呵呵呵</div>
+            <div>呵呵呵</div>
+        </template>
+        <div v-else>哈哈哈</div>
+        <p>****************登录  注册*******************</p>
+        <button @click="cut=!cut">切换</button>
+        <!--默认情况下 在切换dom时相同的结构会被复用，如果不需要复用 需要加key-->
+        <template v-if="cut">
+            <label for="">注册</label>
+            <input type="text" key="1">
+        </template>
+        <template v-else>
+            <label for="">登录</label>
+            <input type="text" key="2">
+        </template>
+        <!--:class绑定的样式  和  class绑定的不冲突-->
+        <!--{className:isActive}-->
+        <div class="x" :class="{z:flag,y:true}">和大算我的</div>
+        <div class="x" :class="[class1,class2]">和大算我的</div>
+        <div :style="[class1,class2,{fontSize:'40px'}]">和大算我的</div>
+
+        <div :class="{true:'x',false:'y'}[true]">卡上动脑筋我电脑</div>
+        <div v-for="(a,index) in 10" :class="{x:index%2}">{{a}}</div>
     </div>
 
     <script src="../../node_modules/vue/dist/vue.js"></script>
     <script>
+        //class="a b c" style="{background:'color'}"
+        //第一种方式是对象   第二种是数组
         let vm=new Vue({
             el:'#app',
             computed:{
@@ -38,7 +75,10 @@
             data:{
                 query:'',
                 flag:true,
-                arr:[1,2,3,4,5,6]
+                arr:[1,2,3,4,5,6],
+                cut:true,
+                class1:'x',
+                class2:'y'
             }
         })
     </script>

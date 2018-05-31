@@ -7,6 +7,7 @@
 <body>
 <div id="app">
     <input type="text" v-model="a">{{msg}}
+    <br>
     <input type="text" v-model="val">{{fullName}}
 </div>
 
@@ -21,6 +22,7 @@
         },
         watch:{//只有值变化的时候才会触发 支持异步,其它情况更适合使用computed
             a(newVal,oldVal){//watch的属性名要和观察的人的名字一致
+                this.msg='.............';
                 setTimeout(()=>{
                     if(newVal.length<3){
                         return this.msg='太少'
@@ -40,6 +42,20 @@
             msg:''
         }
     });
+
+    //    不建议
+    //    vm.$watch('a',(newVal,oldVal)=>{
+    //        vm.msg='.........';
+    //        setTimeout(()=>{
+    //            if(newVal.length<3){
+    //                return vm.msg='太少'
+    //            }
+    //            if(newVal.length>6){
+    //                return vm.msg='太多'
+    //            }
+    //            vm.msg=''
+    //        },2000)
+    //    })
 </script>
 </body>
 </html>
