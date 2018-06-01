@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件开发</title>
+</head>
+<body>
+    <div id="app">
+        <myheader></myheader>
+        <myfooter></myfooter>
+        <mybody></mybody>
+
+        <parent></parent>
+    </div>
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+    <script>
+
+        Vue.component('myheader',{
+            template:'<div>{{msg}}</div>',
+            data(){//组建中的数据必须是函数类型  返回一个实例作为组件的数据
+                return {msg:'下午阳光正好'}
+            }
+        });
+        let obj={school:'sdfdf'};//共用了数据 会导致同时更新 （独立性）
+        let myfooter={
+            template:`<div @click="school='hello'">现在阳光晃眼{{school}}</div>`,
+            data(){
+                return obj
+            }
+        };
+        let mybody={
+            template:'<div @click="fn">下午五点半{{school}}</div>',
+            data(){
+                return obj
+            },
+            methods:{
+                fn(){
+                    this.school='hello'
+                }
+            }
+        };
+
+        //
+        let grandson={template:'<div>grandson</div>'};
+        let son={
+            template:'<div>son <grandson></grandson></div>',
+            components:{
+                grandson
+            }
+        };
+        let parent={
+            template:'<div>parent <son></son></div>',
+            components:{
+                son
+            }
+        };
+        let vm=new Vue({
+            el:'#app',
+            components:{
+                myfooter,
+                mybody,
+                parent
+            },
+            data:{}
+        })
+    </script>
+     <!--
+     页面级组件：1、页面是一个组件
+                2、将可服用的部分抽离出来 基础组件
+
+    提高开发效率
+    方便重复使用
+    便于协同开发
+    更容易被管理和维护
+    一个自定义标签  vue把它看成是一个组件 div  p span a  header  sevtion  ....vue可以赋予这些标签一定的意义
+
+        1、组件名不要带有大写 多个单词用
+        2、只要组件名和定义名字相同 （首字母可以大写）
+        3、html采用短横线隔开命名法 js中转驼峰也是可以的
+
+        一般写插件的时候，使用全局组件多一些
+        全局组件 可以声明一次在任何地方使用
+
+        局部组件：必须告诉这个组件属于谁，1、创建这个组件  2、注册这个组件 3、引用这个组件
+        组件时相互独立的  不能直接跨作用域 实例也是一个组件，组件中拥有生命周期函数
+
+        //子组件不能直接使用父组件的数据（组件之间的数据交互）
+        //组件理论上可以无限嵌套
+    -->
+
+
+
+
+</body>
+</html>
