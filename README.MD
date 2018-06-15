@@ -107,3 +107,71 @@ filters:{
 - 浏览器自带的历史管理的方法 history  (history.pushState())，可能会导致404错误
 
 > 开发时使用hash的方式  上线的话使用history的方式
+
+## EventBus同级组件或隔级组件间的数据传递（不用），使用vuex
+
+## 路由
+- 返回不同的路径，就可以返回不同的结果
+
+## 多页面（spa single page application）
+
+## 全局生成 vue-cli 脚手架
+
+```
+npm install vue-cli -g
+vue init webpack <项目名>
+cd 项目名
+npm install -y
+```
+
+## 模块
+- node 模块的规范commonjs
+- cmd:seajs   amd:require
+- umd 为了做兼容处理
+- esmodule
+    - 如何定义模块（一个js就是一个模块）
+    - 如何导出模块 （export）
+    - 如何使用模块 （import）
+
+## 下载webpack，--save-dev上线就不需要了
+
+```
+npm init -y
+npm install webpack --save-dev
+```
+
+> 安装webpack或者less最好不要安装全局的，否则可能导致版本差异
+
+- 在package.json中配置一个脚本，这个脚本用的命令是webpack.会去当前的node_modules下找bin对应
+ 的webpack名字让其执行，执行的是bin/webpack.js，webpack.js需要当前目录下有个名字叫
+ webpack.config.js的文件，我们通过npm run build 执行的目录是当前文件的目录，所以会去当前的目录下查找。
+
+## babel转义es6->es5，一个翻译一个解析
+- 安装
+```
+npm install babel-core babel-loader --save-dev
+```
+
+## babel-preset-es2015   配置.babelrc文件，预设可以做的事，babel-loader会找这个文件
+- 让翻译官拥有解析es6语法的功能
+
+## babel-preset-stage-0
+- 解析es7，在.babelrc中配置
+
+## 解析样式，解析模块，再将解析内容插入到style标签内
+```
+npm install css-loader style-loader --save-dev
+```
+
+## css less sass stylus
+
+- less-loader less css-loader style-loader
+- sass-loader
+- stylus-loader
+
+```
+npm install less-loader less --save-dev
+```
+
+## 解析图片
+- file-loader url-loader(依赖于file-loader)

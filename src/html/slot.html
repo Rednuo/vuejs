@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新建文件</title>
+</head>
+<body>
+<div id="app">
+    <!--这里放的内容均属于父级当前模板的，只有属性名是属于组件的-->
+    <a-modal m="1">
+        <h1 slot="title">是否删除？</h1>
+        <p slot="content" @click="fn">亲确认删除么</p>
+        <a href="www.baidu.com">去百度</a>
+    </a-modal>
+    <a-modal><h1>是否确认？</h1></a-modal>
+    <loading ref="load"></loading>
+</div>
+<template id="modal">
+    <!--模板中只能有一个根元素，可以通过元素属性定制模板-->
+    <div>
+        <!--插槽，可放置一些默认内容，如果传递了内容则替换掉-->
+        <slot name="title">默认标题</slot>
+        <slot name="content">默认内容</slot>
+        <slot name="default">默认</slot>
+    </div>
+</template>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    let aModal={//父传子
+        template:'#modal',
+    };
+    let loading={//父组件调用子组件的方法
+        data(){
+            return {flag:true}
+        },
+        template:'<div v-show="flag">疯狂加载中。。。</div>',
+        methods:{
+            hide(){
+                this.flag=false;
+            }
+        },
+    };
+
+    let vm = new Vue({
+        el: '#app',
+        mounted(){
+            console.log(this.$refs.load)
+        },
+        components:{
+//            aModal 或 'a-modal'
+            aModal,
+            loading
+        },
+        methods:{
+            fn(){alert(1)}
+        },
+        data: {}
+    })
+</script>
+</body>
+</html>

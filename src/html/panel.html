@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>panel</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<div id="app">
+    <card :type="article.type" @say-title="parent" v-for="(article,index) in articles" :key="index">
+        <div slot="title"> <span v-html="article.title"></span></div>
+        <div slot="content">{{article.content}}</div>
+        <div v-if="article.auth">{{article.auth}}</div>
+        <!--不绑定，可以显示或不显示-->
+    </card>
+</div>
+<template id="card">
+    <div class="card" :class="[color]">
+        <div class="card-header" ref="head">
+            <slot name="title"></slot>
+        </div>
+        <div class="card-body">
+            <slot name="content"></slot>
+        </div>
+        <div class="card-footer">
+            <slot>匿名</slot>
+            <button @click="say">点我说标题</button>
+        </div>
+    </div>
+</template>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    let card={
+        template:'#card',
+        computed:{
+            color(){
+                return 'bg-'+this.type
+            }
+        },
+        methods:{
+            say(){
+                this.$emit('say-title',this.$refs.head.innerText)
+            }
+        },
+        props:{
+            type:{//this.type='primary' 子不能更改父传递的属性
+                type:[String],
+                default:''
+            }
+        }
+    };
+    let vm = new Vue({
+        el: '#app',
+        methods:{
+            parent(tit){
+                alert(tit)
+            }
+        },
+        components:{
+            card
+        },
+        data: {
+            articles:[
+                {type:'warning',title:'<h2>vue</h2>',content:'这是vue文章',auth:'作者z'},
+                {type:'primary',title:'<h2>react</h2>',content:'这是react文章',auth:'作者h'},
+                {type:'danger',title:'<h2>angular</h2>',content:'这是angular文章',auth:'作者e'},
+            ]
+        }
+    })
+</script>
+</body>
+</html>

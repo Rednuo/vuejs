@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由-编程式导航</title>
+    <link rel="stylesheet" href="../../node_modules/animate.css/animate.css">
+    <style>
+        .active{color: red;}
+
+    </style>
+</head>
+<body>
+<!--前后端分离
+hash模式  开发时使用hash 不会导致404 hash不支持SEO
+h5的history.pushState （上线采用h5跳转）
+-->
+<div id="app">
+    <!--<router-link to="/home" tag="button">首页</router-link>-->
+    <!--<router-link to="/list" tag="button">列表页</router-link>-->
+    <br> <br>
+    <!--动态传值-->
+    <!--<router-link :to="{path:'/home'}" tag="button">首页</router-link>-->
+    <!--<router-link :to="{path:'/list'}" tag="button">列表页</router-link>-->
+    <br> <br>
+
+    <router-link to="/index">首页</router-link>
+    <router-link to="/detail">详情</router-link>
+    <!--router-view全局组件，可直接使用-->
+    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+        <!--加样式，防抖-->
+        <!--要缓存谁就把谁包起来-->
+        <keep-alive>
+            <router-view style="position: absolute;top:0;left:0;width: 100%"></router-view>
+        </keep-alive>
+
+    </transition>
+</div>
+
+<template id="detail">
+    <div>
+        <router-link to="/detail/profile">个人中心</router-link>
+        <router-link to="/detail/about">关于我</router-link>
+        <router-view></router-view>
+    </div>
+</template>
+
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script src="../../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    let home={
+        template:'<div>首页 <button @click="toList">去列表</button></div>',
+        methods:{
+//            toList(){this.$router.push('/list')} //强制跳转路径
+            toList(){this.$router.replace('/list')} //路由替换，替换当前历史
+        }
+    };
+    let list={
+        template:'<div>列表页 <button @click="back">返回</button></div>',
+        methods:{
+            back(){
+                this.$router.go(-1)
+            }
+        }
+    };
+
+
+    let index={template:'<div style="background-color: burlywood">首页</div>'};
+    let detail={template:'#detail'};
+    let profile={template:'<div style="background-color: #cccccc">个人中心</div>'};
+    let about={template:'<div style="background-color: beige">关于我</div>'};
+
+    let routes=[//路由映射表 配置路径和组件的关系
+
+//        {path:'/',component:home},//默认展示路由
+//        {path:'/home',component:home},
+//        {path:'/list',component:list},
+//        {path:'*',component:list},//路径不会变  只切换了组件
+//        {path:'*',redirect:'/home'},//路径变 组件也变 重定向 404时
+
+        {
+            path:'/index',
+            component:index
+        },
+        {
+            path:'/detail',
+            component:detail,
+            children:[//children中的路径永远不带/，带/表示是1级路由
+                {path:'profile',component:profile},
+                {path:'about',component:about}
+            ]
+        },
+    ];
+    let router=new VueRouter({
+//        mode:'history',//********************************h5模式！！！没有这个属性默认hash
+        routes,
+        linkActiveClass:'active',//更改默认样式的类名  默认叫router-link-active
+
+    });
+    let vm = new Vue({
+        el: '#app',
+        router,//每个组件都有$router属性（放方法）、$route(存属性)
+        data: {}
+    })
+</script>
+</body>
+</html>
