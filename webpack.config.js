@@ -1,6 +1,6 @@
 // webpack 必须采用common.js写法
 let path=require('path');//专门处理路径用的，以当前路径解析出一个相对路径
-
+let HtmlWebpackPlugin=require('html-webpack-plugin');
 
 module.exports={
     entry:'./src/js/main.js',
@@ -24,8 +24,14 @@ module.exports={
             {test:/\.css$/,use:['style-loader','css-loader']},//use时从右往前写
             {test:/\.less$/,use:['style-loader','css-loader','less-loader']},
             // 转化base64，只在8192字节以下转化，其它情况下输出图片
-            {test:/\.(jpg|png|gif)$/,use:['url-loader?limit=8192']},
+            {test:/\.(jpg|png|gif|jpeg)$/,use:['url-loader?limit=8192']},
             {test:/\.(eot|svg|woff|woff2|wtf)$/,use:['url-loader']}
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({//自动插入到dist目录中
+            template:'./src/html/index.html',
+            filename:'index.html'
+        })
+    ]
 };

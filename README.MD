@@ -175,3 +175,13 @@ npm install less-loader less --save-dev
 
 ## 解析图片
 - file-loader url-loader(依赖于file-loader)
+
+## 解析html插件
+- 作用：以自己的html为模板，将打包后的结果自动引入到html中产出到dist目录下
+
+```
+npm install html-webpack-plugin --save-dev
+```
+
+## webpack-dev-server
+- 内置服务，启动端口号，代码更新会自动打包（内存中打包，不产生实体文件），代码有变化就重新执行
